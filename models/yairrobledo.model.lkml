@@ -3,12 +3,12 @@ connection: "national_parks"
 
 # include all the views
 include: "/views/**/*.view"
+# include: "/views/park_state.view.lkml"
 
 # Datagroups define a caching policy for an Explore. To learn more,
 # use the Quick Help panel on the right to see documentation.
 
 datagroup: yairrobledo_default_datagroup {
-  # sql_trigger: SELECT MAX(id) FROM etl_log;;
   max_cache_age: "1 hour"
 }
 
@@ -57,8 +57,16 @@ explore: parks {
     type: left_outer
     sql_on: ${parks.park_name} = ${monthly_visits.park};;
     relationship: one_to_many
-}}
+  }
+  # join: park_state {
+  #   view_label: "Top N Ranking"
+  #   type: left_outer
+  #   relationship: one_to_many
+  #   sql_on: ${parks.park_name} = ${park_state.park_name} ;;
+  # }
+}
 
+explore: park_state {}
 
 explore: park_species {}
 

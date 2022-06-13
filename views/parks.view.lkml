@@ -16,6 +16,7 @@ view: parks {
     sql: ${TABLE}.Acres ;;
   }
 
+
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
@@ -85,6 +86,7 @@ view: parks {
 
   dimension: state {
     type: string
+    map_layer_name: us_states
     sql: ${TABLE}.State ;;
   }
 
