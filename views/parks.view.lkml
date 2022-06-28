@@ -16,6 +16,15 @@ view: parks {
     sql: ${TABLE}.Acres ;;
   }
 
+  dimension: product_image {
+    sql: ${park_name} ;;
+
+  }
+
+  # dimension: park_no_eagle {
+  #   sql: ${bald_eagle}.Park ;;
+  # }
+
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
@@ -74,16 +83,57 @@ view: parks {
     sql: ${TABLE}.Longitude ;;
   }
 
+  dimension: park_location {
+    type: location
+    sql_latitude: ${latitude} ;;
+    sql_longitude: ${longitude} ;;
+  }
+
   dimension: park_code {
     type: string
     sql: ${TABLE}.Park_Code ;;
   }
 
-  dimension: park_name {
-    type: string
-    sql: ${TABLE}.park_name ;;
+  dimension: most_recent {
+    type: yesno
+    label: "Most recent Park"
+    sql: DATE_DIFF( ${TABLE}.established, MAX( ${TABLE}.established), DAY) = 0 ;;
   }
+  dimension_group: last_park_establishment {
+    label: "Last Open Park"
+    type: date_year
+    timeframes: [
+      year
+    ]
+    sql: ${TABLE}.established ;;
+    convert_tz: no
+  }
+  measure: last{
+    type: max
+    sql: ${last_park_establishment};;
+  }
+  dimension: park_name {
 
+    label:"Park"
+    type: string
+    sql: ${TABLE}.park_name;;
+
+    html:
+    {{ linked_value }}
+    <a href="https://www.google.com/search?q={{ value }}" target="_new">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Google-favicon-2015.png" height=15 width=15> </a> ;;
+  }
+dimension: park_image {
+  type: string
+  sql: ${TABLE}.art;;
+  html: <img src="{{value}}" height=200 width=200/> ;;
+}
+
+dimension: eagle_image {
+  type: string
+  sql: ${TABLE}.art;;
+  html: <img src="http://t2.gstatic.com/images?q=tbn:ANd9GcSt4LHJWgIv8jtNsIC9A162zn49SHzXqOkEwxHA7my44sYjISX_" height=200 width=200/> ;;
+}
   dimension: state {
     type: string
     map_layer_name: us_states

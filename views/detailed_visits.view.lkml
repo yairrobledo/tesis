@@ -54,8 +54,12 @@ view: detailed_visits {
     type: string
     sql: ${TABLE}.month ;;
   }
+  dimension: month_n {
+    type: number
 
-  dimension: non_recreation_hours {
+    sql: ${TABLE}.month ;;
+  }
+   dimension: non_recreation_hours {
     type: number
     sql: ${TABLE}.non_recreation_hours ;;
   }
@@ -72,6 +76,7 @@ view: detailed_visits {
 
   dimension: park {
     type: string
+    primary_key: yes
     sql: ${TABLE}.park ;;
   }
 

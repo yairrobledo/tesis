@@ -50,6 +50,7 @@ view: monthly_visits {
     sql: ${TABLE}.month ;;
   }
 
+
   dimension: non_recreation_hours {
     type: number
     sql: ${TABLE}.non_recreation_hours ;;
@@ -67,6 +68,7 @@ view: monthly_visits {
 
   dimension: park {
     type: string
+    primary_key: yes
     sql: ${TABLE}.park ;;
   }
 
@@ -98,6 +100,7 @@ view: monthly_visits {
   dimension: year {
     type: number
     sql: ${TABLE}.year ;;
+    value_format: "0000"
   }
 
   measure: count {

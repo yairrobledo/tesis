@@ -62,9 +62,23 @@ view: trails {
     sql: ${TABLE}.country_name ;;
   }
 
+  # dimension: difficulty_rating {
+  #   type: number
+  #   sql: ${TABLE}.difficulty_rating ;;
+  # }
+
   dimension: difficulty_rating {
+    hidden: no
     type: number
-    sql: ${TABLE}.difficulty_rating ;;
+    sql:CAST(${TABLE}.difficulty_rating AS FLOAT64) ;;
+    html:
+    {% for i in (1..7) %}
+    {% if i > value %}
+      ★
+    {% else %}
+      <font color="orange">★</font>
+    {% endif %}
+    {% endfor %} ;;
   }
 
   dimension: elevation_gain {
@@ -85,6 +99,7 @@ view: trails {
   dimension: name {
     type: string
     sql: ${TABLE}.name ;;
+
   }
 
   dimension: num_reviews {

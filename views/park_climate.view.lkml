@@ -11,82 +11,172 @@ view: park_climate {
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Avg Barometric Pressure" in Explore.
 
-  dimension: avg_barometric_pressure {
-    type: number
-    sql: ${TABLE}.avg_barometric_pressure ;;
+  parameter: metric_selector {
+    type: string
+    allowed_value: {
+      label: "Avg Barometric Pressure"
+      value: "avg_barometric_pressure"
+    }
+    allowed_value: {
+      label: "Avg Cloud Cover"
+      value: "avg_cloud_cover"
+    }
+    allowed_value: {
+      label: "Avg Dry Days"
+      value: "avg_dry_days"
+    }
+    allowed_value: {
+      label: "Avg Fog Days"
+      value: "avg_fog_days"
+    }
+    allowed_value: {
+      label: "Avg Humidity"
+      value: "avg_humidity"
+    }
+    allowed_value: {
+      label: "Avg Precip Days"
+      value: "avg_precip_days"
+    }
+    allowed_value: {
+      label: "Avg Precipitation"
+      value: "avg_precipitation"
+    }
+    # ------------------------------------------------
+    allowed_value: {
+      label: "Avg Snow Days"
+      value: "avg_snow_days"
+    }
+    allowed_value: {
+      label: "Avg Sun Hours"
+      value: "avg_sun_hours"
+    }
+    allowed_value: {
+      label: "Avg Tmp High"
+      value: "avg_tmp_high"
+    }
+    allowed_value: {
+      label: "Avg Tmp Low"
+      value: "avg_tmp_low"
+    }
+    allowed_value: {
+      label: "Avg UV Index"
+      value: "avg_uv_index"
+    }
+    allowed_value: {
+      label: "Avg Wind MPH"
+      value: "avg_wind_mph"
+    }
   }
+
+ measure: metric {
+  label_from_parameter: metric_selector
+  type: number
+  sql:
+    CASE
+      WHEN {% parameter metric_selector %} = 'avg_barometric_pressure'
+        THEN ${avg_barometric_pressure}
+      WHEN {% parameter metric_selector %} = 'avg_cloud_cover'
+        THEN ${avg_cloud_cover}
+      WHEN {% parameter metric_selector %} = 'avg_dry_days'
+        THEN ${avg_dry_days}
+      WHEN {% parameter metric_selector %} = 'avg_fog_days'
+        THEN ${avg_fog_days}
+      WHEN {% parameter metric_selector %} = 'avg_humidity'
+        THEN ${avg_humidity}
+      WHEN {% parameter metric_selector %} = 'avg_precip_days'
+        THEN ${avg_precip_days}
+      WHEN {% parameter metric_selector %} = 'avg_precipitation'
+        THEN ${avg_precipitation}
+        /*-----------------------*/
+      WHEN {% parameter metric_selector %} = 'avg_snow_days'
+        THEN ${avg_snow_days}
+      WHEN {% parameter metric_selector %} = 'avg_sun_hours'
+        THEN ${avg_sun_hours}
+      WHEN {% parameter metric_selector %} = 'avg_tmp_high'
+        THEN ${avg_tmp_high}
+      WHEN {% parameter metric_selector %} = 'avg_tmp_low'
+        THEN ${avg_tmp_low}
+      WHEN {% parameter metric_selector %} = 'avg_uv_index'
+        THEN ${avg_uv_index}
+      WHEN {% parameter metric_selector %} = 'avg_wind_mph'
+        THEN ${avg_wind_mph}
+
+      ELSE NULL
+    END ;;
+    value_format: "0.00"
+}
 
   # A measure is a field that uses a SQL aggregate function. Here are defined sum and average
   # measures for this dimension, but you can also add measures of many different aggregates.
   # Click on the type parameter to see all the options in the Quick Help panel on the right.
 
-  measure: total_avg_barometric_pressure {
-    type: sum
-    sql: ${avg_barometric_pressure} ;;
-  }
+  # measure: total_avg_barometric_pressure {
+  #   type: sum
+  #   sql: ${avg_barometric_pressure} ;;
+  # }
 
-  measure: average_avg_barometric_pressure {
+  measure: avg_barometric_pressure {
     type: average
-    sql: ${avg_barometric_pressure} ;;
+    sql: ${TABLE}.avg_barometric_pressure ;;
   }
 
-  dimension: avg_cloud_cover {
-    type: number
+  measure: avg_cloud_cover {
+    type: average
     sql: ${TABLE}.avg_cloud_cover ;;
   }
 
-  dimension: avg_dry_days {
-    type: number
+  measure: avg_dry_days {
+    type: average
     sql: ${TABLE}.avg_dry_days ;;
   }
 
-  dimension: avg_fog_days {
-    type: number
+  measure: avg_fog_days {
+    type: average
     sql: ${TABLE}.avg_fog_days ;;
   }
 
-  dimension: avg_humidity {
-    type: number
+  measure: avg_humidity {
+    type: average
     sql: ${TABLE}.avg_humidity ;;
   }
 
-  dimension: avg_precip_days {
-    type: number
+  measure: avg_precip_days {
+    type: average
     sql: ${TABLE}.avg_precip_days ;;
   }
 
-  dimension: avg_precipitation {
-    type: number
+  measure: avg_precipitation {
+    type: average
     sql: ${TABLE}.avg_precipitation ;;
   }
 
-  dimension: avg_snow_days {
-    type: number
+  measure: avg_snow_days {
+    type: average
     sql: ${TABLE}.avg_snow_days ;;
   }
 
-  dimension: avg_sun_hours {
-    type: number
+  measure: avg_sun_hours {
+    type: average
     sql: ${TABLE}.avg_sun_hours ;;
   }
 
-  dimension: avg_tmp_high {
-    type: number
+  measure: avg_tmp_high {
+    type: average
     sql: ${TABLE}.avg_tmp_high ;;
   }
 
-  dimension: avg_tmp_low {
-    type: number
+  measure: avg_tmp_low {
+    type: average
     sql: ${TABLE}.avg_tmp_low ;;
   }
 
-  dimension: avg_uv_index {
-    type: number
+  measure: avg_uv_index {
+    type: average
     sql: ${TABLE}.avg_uv_index ;;
   }
 
-  dimension: avg_wind_mph {
-    type: number
+  measure: avg_wind_mph {
+    type: average
     sql: ${TABLE}.avg_wind_mph ;;
   }
 
@@ -98,6 +188,7 @@ view: park_climate {
   dimension: park {
     type: string
     sql: ${TABLE}.park ;;
+    primary_key: yes
   }
 
   measure: count {

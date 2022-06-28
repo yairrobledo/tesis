@@ -13,6 +13,19 @@ view: climbing {
     type: string
     sql: ${TABLE}.id ;;
   }
+   dimension: avg_stars_format {
+    hidden: no
+    type: number
+    sql:CAST(${TABLE}.Avg_Stars AS FLOAT64) ;;
+    html:
+    {% for i in (1..5) %}
+    {% if i > value %}
+      ★
+    {% else %}
+      <font color="orange">★</font>
+    {% endif %}
+    {% endfor %} ;;
+  }
 
   # Here's what a typical dimension looks like in LookML.
   # A dimension is a groupable field that can be used to filter query results.
@@ -90,6 +103,8 @@ view: climbing {
   dimension: route {
     type: string
     sql: ${TABLE}.Route ;;
+    html:
+    {{ rendered_value }};;
   }
 
   dimension: route_type {

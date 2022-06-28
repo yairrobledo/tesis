@@ -58,15 +58,31 @@ explore: parks {
     sql_on: ${parks.park_name} = ${monthly_visits.park};;
     relationship: one_to_many
   }
-  # join: park_state {
-  #   view_label: "Top N Ranking"
-  #   type: left_outer
-  #   relationship: one_to_many
-  #   sql_on: ${parks.park_name} = ${park_state.park_name} ;;
-  # }
+  join: visit_ranking {
+  type: inner
+  relationship: many_to_one
+  sql_on: ${parks.park_name} = ${visit_ranking.park_name} ;;
+   }
+
+  join: Last {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${parks.park_name} = ${Last.park_name} ;;
+  }
+  join: First {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${parks.park_name} = ${First.park_name} ;;
+  }
+  join: bald_eagle {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${parks.park_name} = ${bald_eagle.Park} ;;
+  }
+
 }
 
-explore: park_state {}
+# explore: parks_states {}
 
 explore: park_species {}
 
@@ -85,5 +101,6 @@ explore: guides {}
 explore: park_noaa_stations {}
 
 explore: detailed_weather {}
+explore: bald_eagle {}
 
 # explore: detailed_climate {}

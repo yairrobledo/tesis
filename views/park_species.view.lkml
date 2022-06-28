@@ -59,6 +59,7 @@ view: park_species {
   dimension: species_id {
     type: string
     sql: ${TABLE}.Species_ID ;;
+    primary_key: yes
   }
 
   dimension: species_order {
