@@ -11,6 +11,7 @@ view: park_climate {
   # A dimension is a groupable field that can be used to filter query results.
   # This dimension will be called "Avg Barometric Pressure" in Explore.
 
+
   parameter: metric_selector {
     type: string
     allowed_value: {

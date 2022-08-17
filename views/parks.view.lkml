@@ -101,7 +101,7 @@ view: parks {
   }
   dimension_group: last_park_establishment {
     label: "Last Open Park"
-    type: date_year
+    type: time
     timeframes: [
       year
     ]
@@ -110,7 +110,7 @@ view: parks {
   }
   measure: last{
     type: max
-    sql: ${last_park_establishment};;
+    sql: ${last_park_establishment_year};;
   }
   dimension: park_name {
 
